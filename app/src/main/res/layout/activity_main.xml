@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/pokemonRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F6FA"
+    android:clipToPadding="false"
+    android:paddingVertical="8dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chargement..."
-            android:textSize="32sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.recyclerview.widget.RecyclerView>
