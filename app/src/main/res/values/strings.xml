@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kot1_Pokedex</string>
+    <string name="pokemon_sprite">Sprite du Pokémon</string>
+    <string name="pokemon_number">N°%1$s</string>
 </resources>
