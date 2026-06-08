@@ -21,6 +21,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.title.text = "Pokédex"
+        loadPokemon()
+
+    }
+    private fun loadPokemon() {
+        lifecycleScope.launch {
+            try {
+                val pokemonList = RetrofitClient.api.getPokemonList()
+                    .filter { it.pokedexId != null }
+                    .slice(1..20)
+                adapter.submitList(pokemonList)
+            } catch (e: IOException) {
+                Log.e("MainActivity", "Erreur réseau", e)
+                Toast.makeText(this@MainActivity, "Pas de connexion Internet", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Erreur inattendue", e)
+                Toast.makeText(this@MainActivity, "Une erreur est survenue", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
