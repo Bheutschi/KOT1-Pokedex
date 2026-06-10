@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.kot1_pokedex.R
+import com.example.kot1_pokedex.TypeColors
 import com.example.kot1_pokedex.databinding.ItemPokemonBinding
 import com.example.kot1_pokedex.model.Pokemon
 import com.google.android.material.chip.Chip
@@ -35,7 +36,7 @@ class PokemonAdapter(
                     chipStrokeWidth = 0f
                     setTextColor(android.graphics.Color.WHITE)
                     chipBackgroundColor = android.content.res.ColorStateList.valueOf(
-                        colorForType(type.name)
+                        TypeColors.forType(type.name ?: "")
                     )
                 }
                 binding.typeChipGroup.addView(chip)
@@ -64,18 +65,6 @@ class PokemonAdapter(
             override fun areContentsTheSame(old: Pokemon, new: Pokemon) =
                 old == new
         }
-    }
-
-    private fun colorForType(typeName: String?): Int = when (typeName?.lowercase()) {
-        "plante" -> 0xFF4CAF50.toInt()
-        "poison" -> 0xFF7C4DFF.toInt()
-        "feu" -> 0xFFF44336.toInt()
-        "eau" -> 0xFF2196F3.toInt()
-        "électrik", "electrik" -> 0xFFFFC107.toInt()
-        "vol" -> 0xFF90CAF9.toInt()
-        "insecte" -> 0xFF9E9D24.toInt()
-        "normal" -> 0xFF9E9E9E.toInt()
-        else -> 0xFF607D8B.toInt()
     }
 
 }
