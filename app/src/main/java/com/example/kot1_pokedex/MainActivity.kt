@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kot1_pokedex.data.RetrofitClient
 import com.example.kot1_pokedex.databinding.ActivityMainBinding
+import com.example.kot1_pokedex.model.Pokemon
 import com.example.kot1_pokedex.ui.PokemonAdapter
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private var allPokemon: List<Pokemon> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,6 +41,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        binding.searchInput.addTextChangedListener { text ->
+            filterPokemon(text?.toString().orEmpty())
+        }
         binding.pokemonRecyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.pokemonRecyclerView.adapter = adapter
 
@@ -47,10 +55,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadPokemon() {
         lifecycleScope.launch {
             try {
-                val pokemonList = RetrofitClient.api.getPokemonList()
-                    .filter { it.pokedexId != null }
-                    .slice(1..20)
-                adapter.submitList(pokemonList)
+                allPokemon = RetrofitClient.api.getPokemonList().drop(1)
+                adapter.submitList(allPokemon.take(20))
             } catch (e: IOException) {
                 Log.e("MainActivity", "Erreur réseau", e)
                 Toast.makeText(this@MainActivity, "Pas de connexion Internet", Toast.LENGTH_LONG)
@@ -62,4 +68,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun filterPokemon(query: String) {
+        val filtered = if (query.isBlank()) {
+            allPokemon.take(20)
+        } else {
+            allPokemon.filter {
+                it.name?.fr?.contains(query, ignoreCase = true) == true
+            }
+        }
+        adapter.submitList(filtered)
+    }
+
 }
