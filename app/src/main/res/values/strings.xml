@@ -4,5 +4,6 @@
     <string name="pokemon_number">N°%1$s</string>
     <string name="back">Retour</string>
     <string name="height">Hauteur</string>
+    <string name="search_hint">Rechercher un Pokémon</string>
     <string name="weight">Poids</string>
 </resources>
