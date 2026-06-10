@@ -2,4 +2,7 @@
     <string name="app_name">Kot1_Pokedex</string>
     <string name="pokemon_sprite">Sprite du Pokémon</string>
     <string name="pokemon_number">N°%1$s</string>
+    <string name="back">Retour</string>
+    <string name="height">Hauteur</string>
+    <string name="weight">Poids</string>
 </resources>
