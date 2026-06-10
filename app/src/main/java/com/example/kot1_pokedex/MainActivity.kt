@@ -1,5 +1,6 @@
 package com.example.kot1_pokedex
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -10,16 +11,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kot1_pokedex.data.RetrofitClient
 import com.example.kot1_pokedex.databinding.ActivityMainBinding
 import com.example.kot1_pokedex.ui.PokemonAdapter
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val adapter = PokemonAdapter{ pokemon -> }
+    private val adapter = PokemonAdapter { pokemon ->
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("POKEMON_ID", pokemon.pokedexId)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         loadPokemon()
 
     }
+
     private fun loadPokemon() {
         lifecycleScope.launch {
             try {
@@ -47,10 +53,12 @@ class MainActivity : AppCompatActivity() {
                 adapter.submitList(pokemonList)
             } catch (e: IOException) {
                 Log.e("MainActivity", "Erreur réseau", e)
-                Toast.makeText(this@MainActivity, "Pas de connexion Internet", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Pas de connexion Internet", Toast.LENGTH_LONG)
+                    .show()
             } catch (e: Exception) {
                 Log.e("MainActivity", "Erreur inattendue", e)
-                Toast.makeText(this@MainActivity, "Une erreur est survenue", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Une erreur est survenue", Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }
