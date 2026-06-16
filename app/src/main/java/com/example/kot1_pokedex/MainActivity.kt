@@ -3,10 +3,12 @@ package com.example.kot1_pokedex
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -28,9 +30,14 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private var isDataLoaded = false
+
     private var allPokemon: List<Pokemon> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        val splash = installSplashScreen()
+        splash.setKeepOnScreenCondition { !isDataLoaded }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,7 +56,39 @@ class MainActivity : AppCompatActivity() {
         binding.pokemonRecyclerView.adapter = adapter
 
         loadPokemon()
+        setupTypeFilter()
 
+    }
+
+    private val typeOptions = listOf(
+        "Tous", "Normal", "Feu", "Eau", "Plante", "Électrik", "Glace",
+        "Combat", "Poison", "Sol", "Vol", "Psy", "Insecte", "Roche",
+        "Spectre", "Dragon", "Ténèbres", "Acier", "Fée"
+    )
+
+    private fun setupTypeFilter() {
+        val dropdownAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            typeOptions
+        )
+        binding.typeFilterInput.setAdapter(dropdownAdapter)
+
+        binding.typeFilterInput.setOnItemClickListener { _, _, position, _ ->
+            val selectedType = typeOptions[position]
+            filterByType(selectedType)
+        }
+    }
+
+    private fun filterByType(type: String) {
+        val filtered = if (type == "Tous") {
+            allPokemon.take(20)
+        } else {
+            allPokemon.filter { pokemon ->
+                pokemon.types?.any { it.name.equals(type, ignoreCase = true) } == true
+            }
+        }
+        adapter.submitList(filtered)
     }
 
     private fun loadPokemon() {
@@ -57,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 allPokemon = RetrofitClient.api.getPokemonList().drop(1)
                 adapter.submitList(allPokemon.take(20))
+                isDataLoaded = true
             } catch (e: IOException) {
                 Log.e("MainActivity", "Erreur réseau", e)
                 Toast.makeText(this@MainActivity, "Pas de connexion Internet", Toast.LENGTH_LONG)
