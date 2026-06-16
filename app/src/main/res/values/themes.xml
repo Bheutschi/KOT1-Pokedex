@@ -1,9 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Kot1_Pokedex" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Kot1_Pokedex" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">#F5F6FA</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.Kot1_Pokedex" parent="Base.Theme.Kot1_Pokedex" />
+
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#EE1515</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Kot1_Pokedex</item>
+    </style>
 </resources>

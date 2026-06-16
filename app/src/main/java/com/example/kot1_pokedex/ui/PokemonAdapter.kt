@@ -1,0 +1,70 @@
+package com.example.kot1_pokedex.ui
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import coil3.load
+import com.example.kot1_pokedex.R
+import com.example.kot1_pokedex.TypeColors
+import com.example.kot1_pokedex.databinding.ItemPokemonBinding
+import com.example.kot1_pokedex.model.Pokemon
+import com.google.android.material.chip.Chip
+
+class PokemonAdapter(
+    private val onClick: (Pokemon) -> Unit
+) : ListAdapter<Pokemon, PokemonAdapter.PokemonViewHolder>(DIFF) {
+
+    inner class PokemonViewHolder(
+        private val binding: ItemPokemonBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(pokemon: Pokemon) {
+            binding.pokemonName.text = pokemon.name?.fr ?: "Inconnu"
+            binding.pokemonNumber.text = binding.root.context.getString(
+                R.string.pokemon_number,
+                pokemon.pokedexId.toString().padStart(3, '0')
+            )
+            binding.pokemonImage.load(pokemon.sprites?.regular)
+
+            binding.typeChipGroup.removeAllViews()
+            pokemon.types?.forEach { type ->
+                val chip = Chip(binding.root.context).apply {
+                    text = type.name ?: ""
+                    isClickable = false
+                    chipStrokeWidth = 0f
+                    setTextColor(android.graphics.Color.WHITE)
+                    chipBackgroundColor = android.content.res.ColorStateList.valueOf(
+                        TypeColors.forType(type.name ?: "")
+                    )
+                }
+                binding.typeChipGroup.addView(chip)
+            }
+
+            binding.root.setOnClickListener { onClick(pokemon) }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
+        val binding = ItemPokemonBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return PokemonViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    companion object {
+        private val DIFF = object : DiffUtil.ItemCallback<Pokemon>() {
+            override fun areItemsTheSame(old: Pokemon, new: Pokemon) =
+                old.pokedexId == new.pokedexId
+
+            override fun areContentsTheSame(old: Pokemon, new: Pokemon) =
+                old == new
+        }
+    }
+
+}

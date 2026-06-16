@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Kot1_Pokedex</string>
+    <string name="pokemon_sprite">Sprite du Pokémon</string>
+    <string name="pokemon_number">N°%1$s</string>
+    <string name="back">Retour</string>
+    <string name="height">Hauteur</string>
+    <string name="search_hint">Rechercher un Pokémon</string>
+    <string name="weight">Poids</string>
+    <string name="filter_by_type">Filtrer par type</string>
 </resources>
