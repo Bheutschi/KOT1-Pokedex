@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
+    implementation(libs.core.splashscreen)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
