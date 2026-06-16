@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Kot1_Pokedex" parent="Base.Theme.Kot1_Pokedex" />
+
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#EE1515</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.Kot1_Pokedex</item>
+    </style>
 </resources>
