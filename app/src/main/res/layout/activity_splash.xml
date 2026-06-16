@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EE1515"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/splashLogo"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_splash" />
+
+    <TextView
+        android:id="@+id/splashTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/pokemon_solid"
+        android:maxLines="1"
+        android:shadowColor="#2A75BB"
+        android:shadowDx="0"
+        android:shadowDy="3"
+        android:shadowRadius="2"
+        android:text="@string/app_name"
+        android:textColor="#FFCB05"
+        android:textSize="32sp"/>
+
+</LinearLayout>
